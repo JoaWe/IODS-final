@@ -17,3 +17,10 @@ output:
 ---
 
 This page will contain my analysis with regard to the final assignment of the IODS-course, ongoing in the wintersemester 2017 at the University of Helsinki.
+
+***
+  
+```{r child = "FA_report.Rmd"}
+```
+  
+***
