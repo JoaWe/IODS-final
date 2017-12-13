@@ -3,6 +3,11 @@
 
 # Datawrangling-Script for the IODS-Final-Assignment 
 
+#Accessing the necessary libraries:
+
+library(dplyr)
+library(stringr)
+
 # Choosing and loading the datasets "human development (hd)" and "gender inequality index (gii)":
 
 hd <- read.csv("http://s3.amazonaws.com/assets.datacamp.com/production/course_2218/datasets/human_development.csv", stringsAsFactors = F)
@@ -19,3 +24,8 @@ str(gii)
 dim(gii)
 # The dataset contains a total 10 variables and 195 observations.
 # The variables are: GII.Rank, Country, Gender.Inequality.Index..GII., Maternal.Mortality.Ratio, Adolescent.Birth.Rate, Percent.Representation.in.Parliament, Population.with.Secondary.Education..Female., Population.with.Secondary.Education..Male., Labour.Force.Participation.Rate..Female., Labour.Force.Participation.Rate..Male. 
+
+# The variable "Country" exists in both datasets, and can therefore ideally be used to combine the datasets into one.
+
+
+
