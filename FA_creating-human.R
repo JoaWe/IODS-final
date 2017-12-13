@@ -12,7 +12,10 @@ gii <- read.csv("http://s3.amazonaws.com/assets.datacamp.com/production/course_2
 
 str(hd)
 dim(hd)
+# The dataset contains a total of 8 variables and 195 observations.
+# The variables are: HDI.Rank, Country, Human.Development.Index..HDI., Life.Expectancy.at.Birth, Expected.Years.of Education, Mean.Years.of.Education, Gross.National.Income..GNI..per.Capita, GNI.per.Capita.Rank.Minus.HDI.Rank
 
 str(gii)
 dim(gii)
-
+# The dataset contains a total 10 variables and 195 observations.
+# The variables are: GII.Rank, Country, Gender.Inequality.Index..GII., Maternal.Mortality.Ratio, Adolescent.Birth.Rate, Percent.Representation.in.Parliament, Population.with.Secondary.Education..Female., Population.with.Secondary.Education..Male., Labour.Force.Participation.Rate..Female., Labour.Force.Participation.Rate..Male. 
