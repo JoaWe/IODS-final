@@ -1,7 +1,9 @@
 ---
 title: "Final Assignment"
-author: "Heike Joana Wege"
-e-mail: "joana.wege@helsinki.fi"
+author: 
+- name: "Heike Joana Wege"  
+  affiliation: "joana.wege@helsinki.fi"
+        
 date: "December 13, 2017"
 output: 
     html_document:
