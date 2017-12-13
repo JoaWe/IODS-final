@@ -64,7 +64,11 @@ colnames(gii)[10] <-"LF_M"
 # Checking the new variable-names:
 colnames(hd)
 colnames(gii)
-# The variable "Country" exists in both datasets, and can therefore ideally be used to combine the datasets into one.
 
+# The variable "Country" exists in both datasets, and can therefore ideally be used to combine the datasets into one.
+fa_human <- inner_join(hd, gii, by = c("Country"))
+dim(fa_human)
+colnames(fa_human)
+#The newly combined dataset now contains 195 observations (as before) and 17 variables (8 + 10 - 1xCountry)
 
 
