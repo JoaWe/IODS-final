@@ -1,0 +1,17 @@
+---
+title: "Final Assignment"
+author: "Heike Joana Wege"
+e-mail: "joana.wege@helsinki.fi"
+date: "December 13, 2017"
+output: 
+    html_document:
+      theme: united
+      toc: true
+      toc_depth: 2
+      fig_caption: true
+      fig_width: 6
+      fig_height: 4
+      code_folding: hide
+---
+
+This page will contain my analysis with regard to the final assignment of the IODS-course, ongoing in the wintersemester 2017 at the University of Helsinki.
