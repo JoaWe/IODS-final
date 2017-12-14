@@ -82,6 +82,32 @@ colnames(fa_human)
 
 
 
+# Looking at the variable GNI (as I remember from exercise 5 that it was not numeric):
+summary(fa_human$GNI)
+# The variable is represented by characters and would need to be numeric for further use.
+
+# Changing the variable to numeric:
+str_replace(fa_human$GNI, pattern = ",", replace = "") %>% as.numeric(fa_human$GNI)
+fa_human$GNI <- as.numeric(fa_human$GNI)
+summary(fa_human$GNI)
+
+
+
+# Excluding the unnecessary variables:
+
+# 1. by defining the columns that need to be kept:
+keep <- c("Country", "Life_Exp", "Exp_Edu", "GNI", "MMR", "ABR", "PRP", "sec_Edu_F", "sec_Edu_M", "LF_F", "LF_M")
+
+# 2. by using the dplyr-select function:
+fa_human <- dplyr::select(fa_human, one_of(keep))
+
+# checking the variables:
+glimpse(fa_human)
+# For the time being, I have 195 observations and 11 variables.
+
+
+
+
 # Setting the working directory to the data-folder within the IODS-final folder:
 setwd("C:\\Users\\Ani\\Documents\\GitHub\\IODS-final")
 
