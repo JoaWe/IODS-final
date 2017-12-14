@@ -4,7 +4,7 @@ author:
 - name: "Heike Joana Wege"  
   affiliation: "joana.wege@helsinki.fi"
         
-date: "December 13, 2017"
+date: "December 14, 2017"
 output: 
     html_document:
       theme: united
