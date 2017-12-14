@@ -1,0 +1,12 @@
+#Datawrangling and Explanation of the Datasets
+
+The dataset that is used here is a modified combination of the [Human Development Index](http://hdr.undp.org/en/content/human-development-index-hdi) and the [Gender Inequality Index](http://hdr.undp.org/en/content/gender-inequality-index-gii) published by the United Nations Development Programme for the year 2016.
+
+The datasets contained originally 8 variables for the Human Development Index and 10 for the Gender Inequality Index. Either set presented a total of 195 observations for most of the world's countries and 7 regions.
+
+However, the dataset used here has been - as mentioned above - modified by means of datawrangling with RStudio. The link to my coding of the datawrangling can be found from [here](https://github.com/JoaWe/IODS-final/blob/master/FA_creating-human.R).
+
+The modifications are as follows:
+
+1. The variable-names have been shortened.
+2. The datasets have been joined by the variable "Country", which existed in both datasets.
