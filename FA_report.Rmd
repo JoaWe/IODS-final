@@ -31,9 +31,23 @@ The modifications are as follows:
 3. The 7 regions have been removed from the dataset, resulting in dataset   containing only countries.
 4. Missing values have been removed from the dataset, so that the dataset contains only complete sets.
       
-```{r loading the dataset fa_human}
+```{r accessing libraries & loading the dataset fa_human}
+
+# accessing libraries
+library(dplyr)
 
 #loading human:
-fa_human <- read.csv("C:\\Users\\Ani\\Documents\\GitHub\\IODS-final\\fa_human.csv", row.names = 1)
+fa_human <- read.csv("C:\\Users\\Ani\\Documents\\GitHub\\IODS-final\\fa_human.csv", header = TRUE, row.names = 1)
+
+```
+
+In order to give a general overview over the data, you can see the summary and a simple plot here:
+```{r summary}
+
+library(GGally)
+library(corrplot)
+
+summary(fa_human)
+cor(fa_human)%>%corrplot
 
 ```
