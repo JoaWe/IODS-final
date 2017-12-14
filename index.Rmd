@@ -7,7 +7,7 @@ author:
 date: "December 14, 2017"
 output: 
     html_document:
-      theme: united
+      theme: default
       toc: true
       toc_depth: 2
       fig_caption: true
