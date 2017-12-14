@@ -4,9 +4,36 @@ The dataset that is used here is a modified combination of the [Human Developmen
 
 The datasets contained originally 8 variables for the Human Development Index and 10 for the Gender Inequality Index. Either set presented a total of 195 observations for most of the world's countries and 7 regions.
 
-However, the dataset used here has been - as mentioned above - modified by means of datawrangling with RStudio. The link to my coding of the datawrangling can be found from [here](https://github.com/JoaWe/IODS-final/blob/master/FA_creating-human.R).
+However, the dataset used here has been - as mentioned above - modified by means of datawrangling with RStudio. The dataset now contains 155 observations and 8 variables:
+
+1. **Life_Exp**, which refers to the average number of years of life-espectancy of a country's population 
+
+2. **Exp_Edu**, which refers to the expected number of school years of a country's population
+
+3. **GNI**, which refers to the respective country's gross domestic product
+
+4. **MMR**, which refers to a country's maternal mortality ratio in terms of deaths per 100,000 live births
+
+5. **ABR**, which refers to a country's respective Ratio of births given by adolescents, in terms of births per 1,000 women between the ages of 15 to 19 
+
+6. **PRP**, which refers to the share of parliamentary seats held by women in percent
+
+7. **sec_Edu**, which refers to the population aged 25 or above with at least some secondary education in a country presented in percent
+
+8. **LF**, which refers to the Labour force participation rate of a countries population (15 years of age or older)
+
+The link to my coding of the datawrangling can be found from [here](https://github.com/JoaWe/IODS-final/blob/master/create_fa_human.R).
 
 The modifications are as follows:
 
 1. The variable-names have been shortened.
-2. The datasets have been joined by the variable "Country", which existed in both datasets.
+2. The two separate datasets have been joined by the variable "Country", which existed in both datasets, and has later been used to replace the rownames.
+3. The 7 regions have been removed from the dataset, resulting in dataset   containing only countries.
+4. Missing values have been removed from the dataset, so that the dataset contains only complete sets.
+      
+```{r loading the dataset fa_human}
+
+#loading human:
+fa_human <- read.csv("C:\\Users\\Ani\\Documents\\GitHub\\IODS-final\\fa_human.csv", row.names = 1)
+
+```

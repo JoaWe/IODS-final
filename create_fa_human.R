@@ -157,4 +157,4 @@ fa_human <- dplyr::select(fa_human, -Country)
 setwd("C:\\Users\\Ani\\Documents\\GitHub\\IODS-final")
 
 # renewed saving the dataset:
-write.csv(fa_human, file = "C:\\Users\\Ani\\Documents\\GitHub\\IODS-final\\fa_human.csv")
+write.csv(fa_human, file = "C:\\Users\\Ani\\Documents\\GitHub\\IODS-final\\fa_human.csv", rownames = TRUE)
