@@ -45,17 +45,22 @@ fa_human <- read.table("C:\\Users\\Ani\\Documents\\GitHub\\IODS-final\\fa_human.
 In order to give a general overview over the data, you can see the summary and a simple plot here:
 ```{r summary}
 
+# Accessing libraries for plots:
 library(GGally)
 library(corrplot)
 
+# Summarizing the dataset for a brief overview:
 summary(fa_human)
+
+# using corrplot to visualize the dataset in a simple manner:
 cor(fa_human)%>%corrplot(method = "color")
+
+# using ggpairs for more extensive visualization of the dataset:
 ggpairs(fa_human)
 
 ```
 
-*The first plot is to be read by the shades of red (= negative correlation) and blue (positive correlation). The darker the respective shade the stronger the supposed correlation.*
-*The second plot shows the correlation-coefficiants between the variables on the right upper side. The left lower side provides a rough overview of the spreading of thee respective observations.*
+*The first plot is to be read by the shades of red (= negative correlation) and blue (positive correlation). The darker the respective shade the stronger the supposed correlation.The second plot shows the correlation-coefficiants between the variables on the right upper side. The left lower side provides a rough overview of the dispersion of the respective observations.*
 
 As can be seen from the plots above the maternal mortality rate appears (MMR) to be having a particularly obvious negative correlation with the average life-expectancy (Life_Exp), the expected years of education (Exp_Edu), and a population with at least some degree of secondary education (sec_Edu). 
 
@@ -68,11 +73,67 @@ Accordingly, it appears to be sensible to take these variables and their relatio
 
 #Hypotheses
 
-1. The variables Life_Exp and MMR are strongly negatively correlated: **It can therefore be assumed that countries with a lower maternal mortality rate will display a higher life-expectancy in years.** A simple linear regression model ought to show the truth or falsehood of this hypothesis.
+1. The variables Life_Exp and MMR are strongly negatively correlated: **It can therefore be assumed that countries with a lower maternal mortality rate will display a higher life-expectancy in years.** Simple linear & logistic regression models ought to show the truth or falsehood of this hypothesis. It may also be interesting to see, which might fit more.
 
-2. The variables Exp_Edu and sec_Eduare strongly negatively correlated with the variable MMR: **It can be assumed that an increase of education can have a decreasing effect on the maternal mortality rate**. The logistic regression model ought to be sufficient to prove or disprove the hypothesis.
+2. The variables Exp_Edu and sec_Eduare strongly negatively correlated with the variable MMR: **It can be assumed that an increase of education can have a decreasing effect on the maternal mortality rate**. Similarly as before, linear and logistic regression models ought to be sufficient to prove or disprove the hypothesis. Yet, the results ought to differ at least a little from the former hypothesis, as in this case the models will be based on multiple regression.
 
 3. A strong positive correlation was displayed between the variables MMR and ABR: **It can be assumed that an increase in births given by adolescents might increase the number of mothers dying during birth, and vice versa.** 
 
 4. A positive correlation has been displayed between the variables Life-Exp and the two variables Exp_Edu and sec_Edu: **It can be assumed that the level of education impacts the average life-expectancy.** A linear discriminant analysis might deliver results on this hypthesis.
+
+
+# 1. Life-Expectancy & Maternel Mortality Rate
+
+
+### Basic Hypothesis:
+**Countries with a lower mortality rate are expected to display a higher average life-expectancy.**
+
+
+### Method: Linear Regression:
+Linear regression analysis is used in order to relate to variables with one another. The independent variable thereby is believed to be the cause for the dependent variable, leading to the understanding that *if **x**, then **y** *.
+
+A line is thereby drawn that - hopefully - fits as many observations as possible onto itself. Yet, in reality, the coinciding of all observations with *one particular line* is rather unlikely. Thus, the line is sought that is closest to at least most of the observations. Another problem might be, however, that more than one line can be correct.
+
+The basic formular for this line is considered to be **y = a + bx**. The parameter **a** defines the line's y-intercept, while **b** determines the line's slope.
+
+#### Applying Linear Regression Analysis:
+The manner in which the above hypothesis is presented the maternal mortality rate is used to explain the life-expectancy. Therefore,the definition of the variables is the following:
+
+- **independent variable = MMR**
+- **dependent variable = Life_Exp**
+
+```{r LRA Life-Exp & MMR, fig.height=4, fig.width=6}
+
+# Accessing library:
+library(ggplot2)
+
+# drawing the plot:
+qplot(MMR, Life_Exp, data = fa_human) + geom_smooth(method = "lm")
+
+# fitting the linear model:
+Life_MDeath <- lm(MMR ~ Life_Exp, data = fa_human)
+
+# Printing the model's summary
+summary(Life_MDeath)
+
+```
+
+With regard to the graph above, the line is "falling" the further the observations get away from the y-axis (meaning an increase in the independent variable). Thus, the above hypothesis can be considered as "not being wrong": The higher the maternal mortality rate is, the lower is the life-expectancy. 
+
+I chose the term "not wrong" intentionally for expressing the hypothesis' validity, however, because when focusing on the graph, it does show that quite a number of observations is not even remotely found near the line. Which is why the summary helps to further analyze the results.
+
+Of particular interest is, for instance, the multiple *r-sqared*, which if it were in perfect synchronization, were to reach the value of 1. In the case of this analysis, however, it reaches 0,7347. Thus, it implies that less than 75% (73,47%) of the variablity is explained by this linear regression model.
+
+
+### Method: Logistic Regression:
+The basis of multiple regression is the same as linear regression: An independent variable is drawn upon, in order to explain a dependent variable.
+
+The difference, however, is that in this case it is not a linear but an exponential function that is sought in order to provide the explanation.
+
+
+
+
+
+
+
 
