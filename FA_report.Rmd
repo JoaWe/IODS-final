@@ -1,4 +1,4 @@
-#Datawrangling and Explanation of the Datasets
+#Datawrangling and Explanation of the Dataset
 
 The dataset that is used here is a modified combination of the [Human Development Index](http://hdr.undp.org/en/content/human-development-index-hdi) and the [Gender Inequality Index](http://hdr.undp.org/en/content/gender-inequality-index-gii) published by the United Nations Development Programme for the year 2016.
 
@@ -28,16 +28,17 @@ The modifications are as follows:
 
 1. The variable-names have been shortened.
 2. The two separate datasets have been joined by the variable "Country", which existed in both datasets, and has later been used to replace the rownames.
-3. The 7 regions have been removed from the dataset, resulting in dataset   containing only countries.
+3. The 7 regions have been removed from the dataset, resulting in a dataset containing only country-observations.
 4. Missing values have been removed from the dataset, so that the dataset contains only complete sets.
+5. The rows of the dataset have been sorted by the observations of the variable "GNI"
       
 ```{r accessing libraries & loading the dataset fa_human}
 
 # accessing libraries
 library(dplyr)
 
-#loading human:
-fa_human <- read.csv("C:\\Users\\Ani\\Documents\\GitHub\\IODS-final\\fa_human.csv", header = TRUE, row.names = 1)
+# loading human:
+fa_human <- read.table("C:\\Users\\Ani\\Documents\\GitHub\\IODS-final\\fa_human.csv", sep = ",", header = TRUE, row.names = 1)
 
 ```
 
@@ -48,6 +49,30 @@ library(GGally)
 library(corrplot)
 
 summary(fa_human)
-cor(fa_human)%>%corrplot
+cor(fa_human)%>%corrplot(method = "color")
+ggpairs(fa_human)
 
 ```
+
+*The first plot is to be read by the shades of red (= negative correlation) and blue (positive correlation). The darker the respective shade the stronger the supposed correlation.*
+*The second plot shows the correlation-coefficiants between the variables on the right upper side. The left lower side provides a rough overview of the spreading of thee respective observations.*
+
+As can be seen from the plots above the maternal mortality rate appears (MMR) to be having a particularly obvious negative correlation with the average life-expectancy (Life_Exp), the expected years of education (Exp_Edu), and a population with at least some degree of secondary education (sec_Edu). 
+
+A strong positive correlation appears to be existing between the maternal mortality rate and the adolescent birthrate (ABR). Similarly positive appears to be the impact between the variables of expected education and the life-expectancy. 
+
+And finally, slightly weaker, yet still obvious appears to be the positive correlation between at least some degree of secondary education to the variables life-expectancy and expected years of education.
+
+Accordingly, it appears to be sensible to take these variables and their relationships under closer scrutiny.
+
+
+#Hypotheses
+
+1. The variables Life_Exp and MMR are strongly negatively correlated: **It can therefore be assumed that countries with a lower maternal mortality rate will display a higher life-expectancy in years.** A simple linear regression model ought to show the truth or falsehood of this hypothesis.
+
+2. The variables Exp_Edu and sec_Eduare strongly negatively correlated with the variable MMR: **It can be assumed that an increase of education can have a decreasing effect on the maternal mortality rate**. The logistic regression model ought to be sufficient to prove or disprove the hypothesis.
+
+3. A strong positive correlation was displayed between the variables MMR and ABR: **It can be assumed that an increase in births given by adolescents might increase the number of mothers dying during birth, and vice versa.** 
+
+4. A positive correlation has been displayed between the variables Life-Exp and the two variables Exp_Edu and sec_Edu: **It can be assumed that the level of education impacts the average life-expectancy.** A linear discriminant analysis might deliver results on this hypthesis.
+

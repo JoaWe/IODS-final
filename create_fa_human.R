@@ -147,9 +147,22 @@ fa_human$Country
 
 
 
-#replacing "Country" variable as rownmames:
+# Defining countrynames as rownames:
 rownames(fa_human) <- fa_human$Country
+
+#removing the variable "Country" as their identification as the rownmanes should suffice:
 fa_human <- dplyr::select(fa_human, -Country)
+colnames(fa_human)
+## the variable has been removed.
+
+
+
+# sorting the dataset by GNI:
+
+## printing the column fa_human$GNI:
+fa_human$GNI
+## sorting rows by GNI using dplyr::arrange:
+dplyr::arrange(fa_human, -GNI)
 
 
 
@@ -157,4 +170,4 @@ fa_human <- dplyr::select(fa_human, -Country)
 setwd("C:\\Users\\Ani\\Documents\\GitHub\\IODS-final")
 
 # renewed saving the dataset:
-write.csv(fa_human, file = "C:\\Users\\Ani\\Documents\\GitHub\\IODS-final\\fa_human.csv", rownames = TRUE)
+write.table(fa_human, file = "C:\\Users\\Ani\\Documents\\GitHub\\IODS-final\\fa_human.csv", sep = ",", row.names = TRUE)
