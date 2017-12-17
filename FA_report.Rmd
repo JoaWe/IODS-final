@@ -96,13 +96,15 @@ A line is thereby drawn that - hopefully - fits as many observations as possible
 
 The basic formular for this line is considered to be **y = a + bx**. The parameter **a** defines the line's y-intercept, while **b** determines the line's slope.
 
-#### Applying Linear Regression Analysis:
 The manner in which the above hypothesis is presented the maternal mortality rate is used to explain the life-expectancy. Therefore,the definition of the variables is the following:
 
 - **independent variable = MMR**
 - **dependent variable = Life_Exp**
 
-```{r LRA Life-Exp & MMR, fig.height=4, fig.width=6}
+
+#### Applying Linear Regression Analysis:
+
+```{r LinRA Life-Exp & MMR, fig.height=4, fig.width=6}
 
 # Accessing library:
 library(ggplot2)
@@ -124,16 +126,133 @@ I chose the term "not wrong" intentionally for expressing the hypothesis' validi
 
 Of particular interest is, for instance, the multiple *r-sqared*, which if it were in perfect synchronization, were to reach the value of 1. In the case of this analysis, however, it reaches 0,7347. Thus, it implies that less than 75% (73,47%) of the variablity is explained by this linear regression model.
 
+It remains to be seen, if the logistic regresssion might not lead to a more suitable result.
+
 
 ### Method: Logistic Regression:
 The basis of multiple regression is the same as linear regression: An independent variable is drawn upon, in order to explain a dependent variable.
 
 The difference, however, is that in this case it is not a linear but an exponential function that is sought in order to provide the explanation.
 
+#### Applying Logistic Regression:
+
+The variables MMR and Life_Exp will be used in the same manner as above in the linear regression model:
+
+- **independent variable = MMR**
+- **dependent variable = Life_Exp**
+
+```{r LogRA Life_exp & MMR}
+
+# Accessing libraries:
+library(tidyr)
+
+# fitting the logistic model:
+Life_MDeath_log <- glm(MMR ~ Life_Exp, data = fa_human)
+
+# Printing the model's summary
+summary(Life_MDeath_log)
+
+```
 
 
 
 
+#2. Maternal Mortality and Education:
+
+### Basic Hypothesis:
+**An increase of education can have a decreasing effect on the maternal mortality rate.**
+
+### Applying multiple linear regression:
+
+```{r multipleLogRA Education & MMR}
+
+# Accessing libraries:
+library(tidyr)
+
+# fitting the logistic model:
+Edu_MDeath_expo <- glm(MMR ~ sec_Edu + Exp_Edu, data = fa_human)
+
+# Printing the model's summary
+summary(Edu_MDeath_expo)
+
+```
 
 
+
+# Maternal-Mortality-Rate & Adolescent Birthrate:
+
+### Basic Hypothesis
+
+**It can be assumed that an increase in births given by adolescents might increase the number of mothers dying during birth, and vice versa.** 
+
+### Linear Discriminant Analysis:
+
+1. Step scaling the dataset:
+
+```{r scaling dataset}
+
+# center and standardize variables
+fa_human_scaled <- scale(fa_human)
+
+# summaries of the scaled variables
+summary(fa_human_scaled)
+
+# class of the boston_scaled object
+class(fa_human_scaled)
+
+# change the object to data frame
+fa_human_scaled <- as.data.frame(fa_human_scaled)
+
+```
+
+
+2. Creating a factor-variable:
+
+```{r creating factor-variable gni}
+
+# summary of the scaled GNI-variable
+summary(fa_human_scaled$GNI)
+
+# create a quantile vector of GNI and print it
+bins <- quantile(fa_human_scaled$GNI)
+bins
+
+# create a categorical variable "gni"
+gni <- cut(fa_human_scaled$GNI, breaks = bins, include.lowest = TRUE, labels = c("low", "med_low", "med_high", "high"))
+
+# look at the table of the new factor gni
+table(gni)
+
+# remove original GNI from the dataset
+fa_human_scaled <- dplyr::select(fa_human_scaled, -GNI)
+
+# add the new categorical value to scaled data
+fa_human_scaled <- data.frame(fa_human_scaled, gni)
+
+```
+
+3. Creating train- and test-sets:
+
+```{r train & testsets}
+# number of rows in the scaled dataset:
+n <- nrow(fa_human_scaled)
+
+# Choose 75% of the rows
+ind <- sample(n, size = n*0,75)
+
+# creating the trainset:
+train <- fa_human_scaled[ind,]
+
+# creating the testset:
+test <- fa_human_scaled[-ind,]
+
+# saving the correct cclasses from the test data:
+correct_classes <- test$gni
+
+#removing the gni-variable from the testset:
+test <- dplyr::select(test, -gni)
+
+```
+
+4. LDA and the trainset:
 

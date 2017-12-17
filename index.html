@@ -145,6 +145,8 @@ $(document).ready(function () {
 <li><a href="#datawrangling-and-explanation-of-the-dataset">Datawrangling and Explanation of the Dataset</a></li>
 <li><a href="#hypotheses">Hypotheses</a></li>
 <li><a href="#life-expectancy-maternel-mortality-rate">1. Life-Expectancy &amp; Maternel Mortality Rate</a></li>
+<li><a href="#maternal-mortality-and-education">2. Maternal Mortality and Education:</a></li>
+<li><a href="#maternal-mortality-rate-adolescent-birthrate">Maternal-Mortality-Rate &amp; Adolescent Birthrate:</a></li>
 </ul>
 </div>
 
@@ -244,13 +246,13 @@ ggpairs(fa_human)</code></pre>
 <p>Linear regression analysis is used in order to relate to variables with one another. The independent variable thereby is believed to be the cause for the dependent variable, leading to the understanding that <em>if <strong>x</strong>, then <strong>y</strong> </em>.</p>
 <p>A line is thereby drawn that - hopefully - fits as many observations as possible onto itself. Yet, in reality, the coinciding of all observations with <em>one particular line</em> is rather unlikely. Thus, the line is sought that is closest to at least most of the observations. Another problem might be, however, that more than one line can be correct.</p>
 <p>The basic formular for this line is considered to be <strong>y = a + bx</strong>. The parameter <strong>a</strong> defines the line’s y-intercept, while <strong>b</strong> determines the line’s slope.</p>
-<div id="applying-linear-regression-analysis" class="section level4">
-<h4>Applying Linear Regression Analysis:</h4>
 <p>The manner in which the above hypothesis is presented the maternal mortality rate is used to explain the life-expectancy. Therefore,the definition of the variables is the following:</p>
 <ul>
 <li><strong>independent variable = MMR</strong></li>
 <li><strong>dependent variable = Life_Exp</strong></li>
 </ul>
+<div id="applying-linear-regression-analysis" class="section level4">
+<h4>Applying Linear Regression Analysis:</h4>
 <pre class="r"><code># Accessing library:
 library(ggplot2)
 
@@ -283,12 +285,177 @@ summary(Life_MDeath)</code></pre>
 <p>With regard to the graph above, the line is “falling” the further the observations get away from the y-axis (meaning an increase in the independent variable). Thus, the above hypothesis can be considered as “not being wrong”: The higher the maternal mortality rate is, the lower is the life-expectancy.</p>
 <p>I chose the term “not wrong” intentionally for expressing the hypothesis’ validity, however, because when focusing on the graph, it does show that quite a number of observations is not even remotely found near the line. Which is why the summary helps to further analyze the results.</p>
 <p>Of particular interest is, for instance, the multiple <em>r-sqared</em>, which if it were in perfect synchronization, were to reach the value of 1. In the case of this analysis, however, it reaches 0,7347. Thus, it implies that less than 75% (73,47%) of the variablity is explained by this linear regression model.</p>
+<p>It remains to be seen, if the logistic regresssion might not lead to a more suitable result.</p>
 </div>
 </div>
 <div id="method-logistic-regression" class="section level3">
 <h3>Method: Logistic Regression:</h3>
 <p>The basis of multiple regression is the same as linear regression: An independent variable is drawn upon, in order to explain a dependent variable.</p>
 <p>The difference, however, is that in this case it is not a linear but an exponential function that is sought in order to provide the explanation.</p>
+<div id="applying-logistic-regression" class="section level4">
+<h4>Applying Logistic Regression:</h4>
+<p>The variables MMR and Life_Exp will be used in the same manner as above in the linear regression model:</p>
+<ul>
+<li><strong>independent variable = MMR</strong></li>
+<li><strong>dependent variable = Life_Exp</strong></li>
+</ul>
+<pre class="r"><code># Accessing libraries:
+library(tidyr)
+
+# fitting the logistic model:
+Life_MDeath_log &lt;- glm(MMR ~ Life_Exp, data = fa_human)
+
+# Printing the model's summary
+summary(Life_MDeath_log)</code></pre>
+<pre><code>## 
+## Call:
+## glm(formula = MMR ~ Life_Exp, data = fa_human)
+## 
+## Deviance Residuals: 
+##     Min       1Q   Median       3Q      Max  
+## -332.66   -55.76    -9.74    57.25   498.74  
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept) 1710.274     76.345   22.40   &lt;2e-16 ***
+## Life_Exp     -21.788      1.058  -20.59   &lt;2e-16 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## (Dispersion parameter for gaussian family taken to be 11976.06)
+## 
+##     Null deviance: 6907644  on 154  degrees of freedom
+## Residual deviance: 1832338  on 153  degrees of freedom
+## AIC: 1899.4
+## 
+## Number of Fisher Scoring iterations: 2</code></pre>
+</div>
+</div>
+</div>
+<div id="maternal-mortality-and-education" class="section level1">
+<h1>2. Maternal Mortality and Education:</h1>
+<div id="basic-hypothesis-1" class="section level3">
+<h3>Basic Hypothesis:</h3>
+<p><strong>An increase of education can have a decreasing effect on the maternal mortality rate.</strong></p>
+</div>
+<div id="applying-multiple-linear-regression" class="section level3">
+<h3>Applying multiple linear regression:</h3>
+<pre class="r"><code># Accessing libraries:
+library(tidyr)
+
+# fitting the logistic model:
+Edu_MDeath_expo &lt;- glm(MMR ~ sec_Edu + Exp_Edu, data = fa_human)
+
+# Printing the model's summary
+summary(Edu_MDeath_expo)</code></pre>
+<pre><code>## 
+## Call:
+## glm(formula = MMR ~ sec_Edu + Exp_Edu, data = fa_human)
+## 
+## Deviance Residuals: 
+##     Min       1Q   Median       3Q      Max  
+## -323.46   -77.31   -11.78    40.52   650.97  
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)  928.944     51.343  18.093  &lt; 2e-16 ***
+## sec_Edu     -303.595     54.509  -5.570 1.13e-07 ***
+## Exp_Edu      -39.536      4.637  -8.525 1.41e-14 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## (Dispersion parameter for gaussian family taken to be 17313.97)
+## 
+##     Null deviance: 6907644  on 154  degrees of freedom
+## Residual deviance: 2631724  on 152  degrees of freedom
+## AIC: 1957.5
+## 
+## Number of Fisher Scoring iterations: 2</code></pre>
+</div>
+</div>
+<div id="maternal-mortality-rate-adolescent-birthrate" class="section level1">
+<h1>Maternal-Mortality-Rate &amp; Adolescent Birthrate:</h1>
+<div id="basic-hypothesis-2" class="section level3">
+<h3>Basic Hypothesis</h3>
+<p><strong>It can be assumed that an increase in births given by adolescents might increase the number of mothers dying during birth, and vice versa.</strong></p>
+</div>
+<div id="linear-discriminant-analysis" class="section level3">
+<h3>Linear Discriminant Analysis:</h3>
+<ol style="list-style-type: decimal">
+<li>Step scaling the dataset:</li>
+</ol>
+<pre class="r"><code># center and standardize variables
+fa_human_scaled &lt;- scale(fa_human)
+
+# summaries of the scaled variables
+summary(fa_human_scaled)</code></pre>
+<pre><code>##     Life_Exp          Exp_Edu             GNI                 MMR         
+##  Min.   :-2.7188   Min.   :-2.7378   Min.   :-1.767729   Min.   :-0.6992  
+##  1st Qu.:-0.6425   1st Qu.:-0.6782   1st Qu.:-0.826563   1st Qu.:-0.6496  
+##  Median : 0.3056   Median : 0.1140   Median : 0.004952   Median :-0.4726  
+##  Mean   : 0.0000   Mean   : 0.0000   Mean   : 0.000000   Mean   : 0.0000  
+##  3rd Qu.: 0.6717   3rd Qu.: 0.7126   3rd Qu.: 0.818192   3rd Qu.: 0.1932  
+##  Max.   : 1.4218   Max.   : 2.4730   Max.   : 1.741082   Max.   : 4.4899  
+##       ABR               PRP             sec_Edu              LF         
+##  Min.   :-1.1325   Min.   :-1.8203   Min.   :-2.8189   Min.   :-2.6247  
+##  1st Qu.:-0.8394   1st Qu.:-0.7409   1st Qu.:-0.5233   1st Qu.:-0.5484  
+##  Median :-0.3298   Median :-0.1403   Median : 0.3503   Median : 0.2316  
+##  Mean   : 0.0000   Mean   : 0.0000   Mean   : 0.0000   Mean   : 0.0000  
+##  3rd Qu.: 0.6030   3rd Qu.: 0.6127   3rd Qu.: 0.5958   3rd Qu.: 0.7350  
+##  Max.   : 3.8344   Max.   : 3.1850   Max.   : 2.6646   Max.   : 1.6632</code></pre>
+<pre class="r"><code># class of the boston_scaled object
+class(fa_human_scaled)</code></pre>
+<pre><code>## [1] &quot;matrix&quot;</code></pre>
+<pre class="r"><code># change the object to data frame
+fa_human_scaled &lt;- as.data.frame(fa_human_scaled)</code></pre>
+<ol start="2" style="list-style-type: decimal">
+<li>Creating a factor-variable:</li>
+</ol>
+<pre class="r"><code># summary of the scaled GNI-variable
+summary(fa_human_scaled$GNI)</code></pre>
+<pre><code>##      Min.   1st Qu.    Median      Mean   3rd Qu.      Max. 
+## -1.767729 -0.826563  0.004952  0.000000  0.818192  1.741082</code></pre>
+<pre class="r"><code># create a quantile vector of GNI and print it
+bins &lt;- quantile(fa_human_scaled$GNI)
+bins</code></pre>
+<pre><code>##           0%          25%          50%          75%         100% 
+## -1.767728578 -0.826563143  0.004951951  0.818191987  1.741082366</code></pre>
+<pre class="r"><code># create a categorical variable &quot;gni&quot;
+gni &lt;- cut(fa_human_scaled$GNI, breaks = bins, include.lowest = TRUE, labels = c(&quot;low&quot;, &quot;med_low&quot;, &quot;med_high&quot;, &quot;high&quot;))
+
+# look at the table of the new factor gni
+table(gni)</code></pre>
+<pre><code>## gni
+##      low  med_low med_high     high 
+##       39       39       38       39</code></pre>
+<pre class="r"><code># remove original GNI from the dataset
+fa_human_scaled &lt;- dplyr::select(fa_human_scaled, -GNI)
+
+# add the new categorical value to scaled data
+fa_human_scaled &lt;- data.frame(fa_human_scaled, gni)</code></pre>
+<ol start="3" style="list-style-type: decimal">
+<li>Creating train- and test-sets:</li>
+</ol>
+<pre class="r"><code># number of rows in the scaled dataset:
+n &lt;- nrow(fa_human_scaled)
+
+# Choose 75% of the rows
+ind &lt;- sample(n, size = n*0,75)
+
+# creating the trainset:
+train &lt;- fa_human_scaled[ind,]
+
+# creating the testset:
+test &lt;- fa_human_scaled[-ind,]
+
+# saving the correct cclasses from the test data:
+correct_classes &lt;- test$gni
+
+#removing the gni-variable from the testset:
+test &lt;- dplyr::select(test, -gni)</code></pre>
+<ol start="4" style="list-style-type: decimal">
+<li>LDA and the trainset:</li>
+</ol>
 <hr />
 </div>
 </div>
