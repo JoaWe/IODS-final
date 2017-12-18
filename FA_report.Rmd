@@ -1,3 +1,11 @@
+#Summary of this work:
+
+In this final assignment I explore the fa_human dataset that I have established out of the Human Development Index and the Gender Inequality Index. Please see the section on [Datawrangling and Explanation of the Dataset](https://joawe.github.io/IODS-final/#datawrangling-and-explanation-of-the-dataset) for more information. Of particular interest to me appeared the variable that represents the maternal mortality rate. 
+
+I have attempted to relate this variable in diffenrent ways to the life-expectancy and the level of education.
+
+
+
 #Datawrangling and Explanation of the Dataset
 
 The dataset that is used here is a modified combination of the [Human Development Index](http://hdr.undp.org/en/content/human-development-index-hdi) and the [Gender Inequality Index](http://hdr.undp.org/en/content/gender-inequality-index-gii) published by the United Nations Development Programme for the year 2016.
@@ -77,7 +85,6 @@ Accordingly, it appears to be sensible to take a few of these variables and thei
 
 2. The variables Exp_Edu and sec_Eduare strongly negatively correlated with the variable MMR: **It can be assumed that an increase of education can have a decreasing effect on the maternal mortality rate**. Similarly as before, linear and logistic regression models ought to be sufficient to prove or disprove the hypothesis. Yet, the results ought to differ at least a little from the former hypothesis, as in this case the models will be based on multiple regression.
 
-3. The GNI
 
 
 # 1. Life-Expectancy & Maternel Mortality Rate
@@ -159,8 +166,10 @@ The negative coefficient confirms the negative correlation between the variables
 
 #2. Maternal Mortality and Education:
 
+
 ### Basic Hypothesis:
 **An increase of education can have a decreasing effect on the maternal mortality rate.**
+
 
 ### Applying multiple logistic regression:
 
@@ -185,106 +194,15 @@ summary(Edu_MDeath_expo)
 In this multiple logicstic regression analysis I related the variables sec_Edu and Exp_Edu to the variable MMR. 
 Differently from the analysis before we now have two  constants. Both again have negative coefficients, which means that an in- or de-crease in either would affect the maternal mortality rate in the respective reverse. It appears hereby that particularly the access to a secondary education impacts on the MMR-variable.
 
-# Maternal-Mortality-Rate & Adolescent Birthrate:
 
-### Basic Hypothesis
-
-**It can be assumed that an increase in births given by adolescents might increase the number of mothers dying during birth, and vice versa.** 
-
-### Linear Discriminant Analysis:
+# Discussion:
 
 
-Linear Discriminant Analysis (LDA) is a classificatiton method, used to find  variables that separate the dataset, predict "classes" of new data, and reduce the dimensions of the dataset. 
+The brief analyses above have demonstarted that maternal mortality is both a driver, as well as, a result of living conditions and opportunities of individuals.
 
-1. Step scaling the dataset:
+With regard to the question of life-expectancy the maternal mortality rate is a driver, that affects the average life-expectancy of a population negatively. It might be argued that it is an obvious - or at least to be expected - result, particularly as a woman's age for getting pregnant and giving birth rarely reaches the higher age-groups. 
+Yet, especially with regard to this "taken-for-grantedness" it might be necessary to actually visualize that problem.
 
-```{r scaling dataset}
-
-# center and standardize variables
-fa_human_scaled <- scale(fa_human)
-
-# summaries of the scaled variables
-summary(fa_human_scaled)
-
-# class of the boston_scaled object
-class(fa_human_scaled)
-
-# change the object to data frame
-fa_human_scaled <- as.data.frame(fa_human_scaled)
-
-```
-
-
-2. Creating a categorical variable:
-
-```{r creating factor-variable gni}
-
-# summary of the scaled GNI-variable
-summary(fa_human_scaled$GNI)
-
-# create a quantile vector of GNI and print it
-bins <- quantile(fa_human_scaled$GNI)
-bins
-
-# create a categorical variable "gni"
-gni <- cut(fa_human_scaled$GNI, breaks = bins, include.lowest = TRUE, labels = c("low", "med_low", "med_high", "high"))
-
-# look at the table of the new factor gni
-table(gni)
-
-# remove original GNI from the dataset
-fa_human_scaled <- dplyr::select(fa_human_scaled, -GNI)
-
-# add the new categorical value to scaled data
-fa_human_scaled <- data.frame(fa_human_scaled, gni)
-
-```
-
-3. Creating train- and test-sets:
-
-```{r train & testsets}
-# number of rows in the scaled dataset:
-n <- nrow(fa_human_scaled)
-
-# Choose 75% of the rows
-ind <- sample(n, size = n*0,75)
-
-# creating the trainset:
-train <- fa_human_scaled[ind,]
-
-# creating the testset:
-test <- fa_human_scaled[-ind,]
-
-# saving the correct cclasses from the test data:
-correct_classes <- test$gni
-
-#removing the gni-variable from the testset:
-test <- dplyr::select(test, -gni)
-
-```
-
-4. LDA and the trainset:
-
-```{r train gni-LDA}
-
-
-# Accessing library:
-library(MASS)
-
-# linear discriminant analysis:
-lda.fit <- lda(gni~., data = train)
-
-#printing lda.fit-object:
-lda.fit
-
-# function for the lda-biplot arrows:
-lda.arrows <- function(x, myscale = 1, arrow_heads = 0.1, color = "orange", tex = 0.75, choices = c(1,2)){
-  heads <- coef(x)
-  arrows(x0 = 0, y0 = 0,
-         x1 = myscale * heads[,choices[1]],
-         y1 = myscale * heads[,choices[2]],
-         col = color, length = arrow_heads)
-  text(myscale * heads[,choices], labels = row.names(heads), cex = tex, col = color, pos = 3)
-}
-
-```
+But the maternal mortality rate appears to be also a result. In this task I have taken a look at education as an influence of the maternal mortality rate.
+Again the relation appears to be negative, meaning that an increase of the educational level may reversely impact on the maternal mortality rate.
+Interesting in that analysis is, that particularly secondary education appears to be effective.

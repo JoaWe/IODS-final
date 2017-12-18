@@ -142,16 +142,22 @@ $(document).ready(function () {
 
 <div id="TOC">
 <ul>
+<li><a href="#summary-of-this-work">Summary of this work:</a></li>
 <li><a href="#datawrangling-and-explanation-of-the-dataset">Datawrangling and Explanation of the Dataset</a></li>
 <li><a href="#hypotheses">Hypotheses</a></li>
 <li><a href="#life-expectancy-maternel-mortality-rate">1. Life-Expectancy &amp; Maternel Mortality Rate</a></li>
 <li><a href="#maternal-mortality-and-education">2. Maternal Mortality and Education:</a></li>
-<li><a href="#maternal-mortality-rate-adolescent-birthrate">Maternal-Mortality-Rate &amp; Adolescent Birthrate:</a></li>
+<li><a href="#discussion">Discussion:</a></li>
 </ul>
 </div>
 
 <p>This page will contain my analysis with regard to the final assignment of the IODS-course, ongoing in the wintersemester 2017 at the University of Helsinki.</p>
 <hr />
+<div id="summary-of-this-work" class="section level1">
+<h1>Summary of this work:</h1>
+<p>In this final assignment I explore the fa_human dataset that I have established out of the Human Development Index and the Gender Inequality Index. Please see the section on <a href="https://joawe.github.io/IODS-final/#datawrangling-and-explanation-of-the-dataset">Datawrangling and Explanation of the Dataset</a> for more information. Of particular interest to me appeared the variable that represents the maternal mortality rate.</p>
+<p>I have attempted to relate this variable in diffenrent ways to the life-expectancy and the level of education.</p>
+</div>
 <div id="datawrangling-and-explanation-of-the-dataset" class="section level1">
 <h1>Datawrangling and Explanation of the Dataset</h1>
 <p>The dataset that is used here is a modified combination of the <a href="http://hdr.undp.org/en/content/human-development-index-hdi">Human Development Index</a> and the <a href="http://hdr.undp.org/en/content/gender-inequality-index-gii">Gender Inequality Index</a> published by the United Nations Development Programme for the year 2016.</p>
@@ -224,15 +230,13 @@ ggpairs(fa_human)</code></pre>
 <p>As can be seen from the plots above the maternal mortality rate appears (MMR) to be having a particularly obvious negative correlation with the average life-expectancy (Life_Exp), the expected years of education (Exp_Edu), and a population with at least some degree of secondary education (sec_Edu).</p>
 <p>A strong positive correlation appears to be existing between the maternal mortality rate and the adolescent birthrate (ABR). Similarly positive appears to be the impact between the variables of expected education and the life-expectancy.</p>
 <p>And finally, slightly weaker, yet still obvious appears to be the positive correlation between at least some degree of secondary education to the variables life-expectancy and expected years of education.</p>
-<p>Accordingly, it appears to be sensible to take these variables and their relationships under closer scrutiny.</p>
+<p>Accordingly, it appears to be sensible to take a few of these variables and their relationships under closer scrutiny.</p>
 </div>
 <div id="hypotheses" class="section level1">
 <h1>Hypotheses</h1>
 <ol style="list-style-type: decimal">
 <li><p>The variables Life_Exp and MMR are strongly negatively correlated: <strong>It can therefore be assumed that countries with a lower maternal mortality rate will display a higher life-expectancy in years.</strong> Simple linear &amp; logistic regression models ought to show the truth or falsehood of this hypothesis. It may also be interesting to see, which might fit more.</p></li>
 <li><p>The variables Exp_Edu and sec_Eduare strongly negatively correlated with the variable MMR: <strong>It can be assumed that an increase of education can have a decreasing effect on the maternal mortality rate</strong>. Similarly as before, linear and logistic regression models ought to be sufficient to prove or disprove the hypothesis. Yet, the results ought to differ at least a little from the former hypothesis, as in this case the models will be based on multiple regression.</p></li>
-<li><p>A strong positive correlation was displayed between the variables MMR and ABR: <strong>It can be assumed that an increase in births given by adolescents might increase the number of mothers dying during birth, and vice versa.</strong></p></li>
-<li><p>A positive correlation has been displayed between the variables Life-Exp and the two variables Exp_Edu and sec_Edu: <strong>It can be assumed that the level of education impacts the average life-expectancy.</strong> A linear discriminant analysis might deliver results on this hypthesis.</p></li>
 </ol>
 </div>
 <div id="life-expectancy-maternel-mortality-rate" class="section level1">
@@ -342,8 +346,14 @@ summary(Life_MDeath_log)</code></pre>
 </div>
 <div id="applying-multiple-logistic-regression" class="section level3">
 <h3>Applying multiple logistic regression:</h3>
+<ul>
+<li><strong>dependent variable = MMR</strong></li>
+<li><strong>1. independent variable = sec_Edu</strong></li>
+<li><strong>2. independent variable = Exp_Edu</strong></li>
+</ul>
 <pre class="r"><code># Accessing libraries:
 library(tidyr)
+library(ggplot2)
 
 # fitting the logistic model:
 Edu_MDeath_expo &lt;- glm(MMR ~ sec_Edu + Exp_Edu, data = fa_human)
@@ -373,93 +383,15 @@ summary(Edu_MDeath_expo)</code></pre>
 ## AIC: 1957.5
 ## 
 ## Number of Fisher Scoring iterations: 2</code></pre>
+<p>In this multiple logicstic regression analysis I related the variables sec_Edu and Exp_Edu to the variable MMR. Differently from the analysis before we now have two constants. Both again have negative coefficients, which means that an in- or de-crease in either would affect the maternal mortality rate in the respective reverse. It appears hereby that particularly the access to a secondary education impacts on the MMR-variable.</p>
 </div>
 </div>
-<div id="maternal-mortality-rate-adolescent-birthrate" class="section level1">
-<h1>Maternal-Mortality-Rate &amp; Adolescent Birthrate:</h1>
-<div id="basic-hypothesis-2" class="section level3">
-<h3>Basic Hypothesis</h3>
-<p><strong>It can be assumed that an increase in births given by adolescents might increase the number of mothers dying during birth, and vice versa.</strong></p>
-</div>
-<div id="linear-discriminant-analysis" class="section level3">
-<h3>Linear Discriminant Analysis:</h3>
-<ol style="list-style-type: decimal">
-<li>Step scaling the dataset:</li>
-</ol>
-<pre class="r"><code># center and standardize variables
-fa_human_scaled &lt;- scale(fa_human)
-
-# summaries of the scaled variables
-summary(fa_human_scaled)</code></pre>
-<pre><code>##     Life_Exp          Exp_Edu             GNI                 MMR         
-##  Min.   :-2.7188   Min.   :-2.7378   Min.   :-1.767729   Min.   :-0.6992  
-##  1st Qu.:-0.6425   1st Qu.:-0.6782   1st Qu.:-0.826563   1st Qu.:-0.6496  
-##  Median : 0.3056   Median : 0.1140   Median : 0.004952   Median :-0.4726  
-##  Mean   : 0.0000   Mean   : 0.0000   Mean   : 0.000000   Mean   : 0.0000  
-##  3rd Qu.: 0.6717   3rd Qu.: 0.7126   3rd Qu.: 0.818192   3rd Qu.: 0.1932  
-##  Max.   : 1.4218   Max.   : 2.4730   Max.   : 1.741082   Max.   : 4.4899  
-##       ABR               PRP             sec_Edu              LF         
-##  Min.   :-1.1325   Min.   :-1.8203   Min.   :-2.8189   Min.   :-2.6247  
-##  1st Qu.:-0.8394   1st Qu.:-0.7409   1st Qu.:-0.5233   1st Qu.:-0.5484  
-##  Median :-0.3298   Median :-0.1403   Median : 0.3503   Median : 0.2316  
-##  Mean   : 0.0000   Mean   : 0.0000   Mean   : 0.0000   Mean   : 0.0000  
-##  3rd Qu.: 0.6030   3rd Qu.: 0.6127   3rd Qu.: 0.5958   3rd Qu.: 0.7350  
-##  Max.   : 3.8344   Max.   : 3.1850   Max.   : 2.6646   Max.   : 1.6632</code></pre>
-<pre class="r"><code># class of the boston_scaled object
-class(fa_human_scaled)</code></pre>
-<pre><code>## [1] &quot;matrix&quot;</code></pre>
-<pre class="r"><code># change the object to data frame
-fa_human_scaled &lt;- as.data.frame(fa_human_scaled)</code></pre>
-<ol start="2" style="list-style-type: decimal">
-<li>Creating a factor-variable:</li>
-</ol>
-<pre class="r"><code># summary of the scaled GNI-variable
-summary(fa_human_scaled$GNI)</code></pre>
-<pre><code>##      Min.   1st Qu.    Median      Mean   3rd Qu.      Max. 
-## -1.767729 -0.826563  0.004952  0.000000  0.818192  1.741082</code></pre>
-<pre class="r"><code># create a quantile vector of GNI and print it
-bins &lt;- quantile(fa_human_scaled$GNI)
-bins</code></pre>
-<pre><code>##           0%          25%          50%          75%         100% 
-## -1.767728578 -0.826563143  0.004951951  0.818191987  1.741082366</code></pre>
-<pre class="r"><code># create a categorical variable &quot;gni&quot;
-gni &lt;- cut(fa_human_scaled$GNI, breaks = bins, include.lowest = TRUE, labels = c(&quot;low&quot;, &quot;med_low&quot;, &quot;med_high&quot;, &quot;high&quot;))
-
-# look at the table of the new factor gni
-table(gni)</code></pre>
-<pre><code>## gni
-##      low  med_low med_high     high 
-##       39       39       38       39</code></pre>
-<pre class="r"><code># remove original GNI from the dataset
-fa_human_scaled &lt;- dplyr::select(fa_human_scaled, -GNI)
-
-# add the new categorical value to scaled data
-fa_human_scaled &lt;- data.frame(fa_human_scaled, gni)</code></pre>
-<ol start="3" style="list-style-type: decimal">
-<li>Creating train- and test-sets:</li>
-</ol>
-<pre class="r"><code># number of rows in the scaled dataset:
-n &lt;- nrow(fa_human_scaled)
-
-# Choose 75% of the rows
-ind &lt;- sample(n, size = n*0,75)
-
-# creating the trainset:
-train &lt;- fa_human_scaled[ind,]
-
-# creating the testset:
-test &lt;- fa_human_scaled[-ind,]
-
-# saving the correct cclasses from the test data:
-correct_classes &lt;- test$gni
-
-#removing the gni-variable from the testset:
-test &lt;- dplyr::select(test, -gni)</code></pre>
-<ol start="4" style="list-style-type: decimal">
-<li>LDA and the trainset:</li>
-</ol>
+<div id="discussion" class="section level1">
+<h1>Discussion:</h1>
+<p>The brief analyses above have demonstarted that maternal mortality is both a driver, as well as, a result of living conditions and opportunities of individuals.</p>
+<p>With regard to the question of life-expectancy the maternal mortality rate is a driver, that affects the average life-expectancy of a population negatively. It might be argued that it is an obvious - or at least to be expected - result, particularly as a woman’s age for getting pregnant and giving birth rarely reaches the higher age-groups. Yet, especially with regard to this “taken-for-grantedness” it might be necessary to actually visualize that problem.</p>
+<p>But the maternal mortality rate appears to be also a result. In this task I have taken a look at education as an influence of the maternal mortality rate. Again the relation appears to be negative, meaning that an increase of the educational level may reversely impact on the maternal mortality rate. Interesting in that analysis is, that particularly secondary education appears to be effective.</p>
 <hr />
-</div>
 </div>
 
 
