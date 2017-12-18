@@ -68,7 +68,7 @@ A strong positive correlation appears to be existing between the maternal mortal
 
 And finally, slightly weaker, yet still obvious appears to be the positive correlation between at least some degree of secondary education to the variables life-expectancy and expected years of education.
 
-Accordingly, it appears to be sensible to take these variables and their relationships under closer scrutiny.
+Accordingly, it appears to be sensible to take a few of these variables and their relationships under closer scrutiny.
 
 
 #Hypotheses
@@ -77,9 +77,7 @@ Accordingly, it appears to be sensible to take these variables and their relatio
 
 2. The variables Exp_Edu and sec_Eduare strongly negatively correlated with the variable MMR: **It can be assumed that an increase of education can have a decreasing effect on the maternal mortality rate**. Similarly as before, linear and logistic regression models ought to be sufficient to prove or disprove the hypothesis. Yet, the results ought to differ at least a little from the former hypothesis, as in this case the models will be based on multiple regression.
 
-3. A strong positive correlation was displayed between the variables MMR and ABR: **It can be assumed that an increase in births given by adolescents might increase the number of mothers dying during birth, and vice versa.** 
-
-4. A positive correlation has been displayed between the variables Life-Exp and the two variables Exp_Edu and sec_Edu: **It can be assumed that the level of education impacts the average life-expectancy.** A linear discriminant analysis might deliver results on this hypthesis.
+3. The GNI
 
 
 # 1. Life-Expectancy & Maternel Mortality Rate
@@ -195,6 +193,9 @@ Differently from the analysis before we now have two  constants. Both again have
 
 ### Linear Discriminant Analysis:
 
+
+Linear Discriminant Analysis (LDA) is a classificatiton method, used to find  variables that separate the dataset, predict "classes" of new data, and reduce the dimensions of the dataset. 
+
 1. Step scaling the dataset:
 
 ```{r scaling dataset}
@@ -214,7 +215,7 @@ fa_human_scaled <- as.data.frame(fa_human_scaled)
 ```
 
 
-2. Creating a factor-variable:
+2. Creating a categorical variable:
 
 ```{r creating factor-variable gni}
 
@@ -264,3 +265,26 @@ test <- dplyr::select(test, -gni)
 
 4. LDA and the trainset:
 
+```{r train gni-LDA}
+
+
+# Accessing library:
+library(MASS)
+
+# linear discriminant analysis:
+lda.fit <- lda(gni~., data = train)
+
+#printing lda.fit-object:
+lda.fit
+
+# function for the lda-biplot arrows:
+lda.arrows <- function(x, myscale = 1, arrow_heads = 0.1, color = "orange", tex = 0.75, choices = c(1,2)){
+  heads <- coef(x)
+  arrows(x0 = 0, y0 = 0,
+         x1 = myscale * heads[,choices[1]],
+         y1 = myscale * heads[,choices[2]],
+         col = color, length = arrow_heads)
+  text(myscale * heads[,choices], labels = row.names(heads), cex = tex, col = color, pos = 3)
+}
+
+```

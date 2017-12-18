@@ -191,15 +191,14 @@ ggpairs(fa_human)</code></pre>
 <p>As can be seen from the plots above the maternal mortality rate appears (MMR) to be having a particularly obvious negative correlation with the average life-expectancy (Life_Exp), the expected years of education (Exp_Edu), and a population with at least some degree of secondary education (sec_Edu).</p>
 <p>A strong positive correlation appears to be existing between the maternal mortality rate and the adolescent birthrate (ABR). Similarly positive appears to be the impact between the variables of expected education and the life-expectancy.</p>
 <p>And finally, slightly weaker, yet still obvious appears to be the positive correlation between at least some degree of secondary education to the variables life-expectancy and expected years of education.</p>
-<p>Accordingly, it appears to be sensible to take these variables and their relationships under closer scrutiny.</p>
+<p>Accordingly, it appears to be sensible to take a few of these variables and their relationships under closer scrutiny.</p>
 </div>
 <div id="hypotheses" class="section level1">
 <h1>Hypotheses</h1>
 <ol style="list-style-type: decimal">
 <li><p>The variables Life_Exp and MMR are strongly negatively correlated: <strong>It can therefore be assumed that countries with a lower maternal mortality rate will display a higher life-expectancy in years.</strong> Simple linear &amp; logistic regression models ought to show the truth or falsehood of this hypothesis. It may also be interesting to see, which might fit more.</p></li>
 <li><p>The variables Exp_Edu and sec_Eduare strongly negatively correlated with the variable MMR: <strong>It can be assumed that an increase of education can have a decreasing effect on the maternal mortality rate</strong>. Similarly as before, linear and logistic regression models ought to be sufficient to prove or disprove the hypothesis. Yet, the results ought to differ at least a little from the former hypothesis, as in this case the models will be based on multiple regression.</p></li>
-<li><p>A strong positive correlation was displayed between the variables MMR and ABR: <strong>It can be assumed that an increase in births given by adolescents might increase the number of mothers dying during birth, and vice versa.</strong></p></li>
-<li><p>A positive correlation has been displayed between the variables Life-Exp and the two variables Exp_Edu and sec_Edu: <strong>It can be assumed that the level of education impacts the average life-expectancy.</strong> A linear discriminant analysis might deliver results on this hypthesis.</p></li>
+<li><p>The GNI</p></li>
 </ol>
 </div>
 <div id="life-expectancy-maternel-mortality-rate" class="section level1">
@@ -257,7 +256,7 @@ summary(Life_MDeath)</code></pre>
 </div>
 <div id="method-logistic-regression" class="section level3">
 <h3>Method: Logistic Regression:</h3>
-<p>The basis of multiple regression is the same as linear regression: An independent variable is drawn upon, in order to explain a dependent variable.</p>
+<p>The basis of logistic regression is the same as linear regression: An independent variable is drawn upon, in order to explain a dependent variable.</p>
 <p>The difference, however, is that in this case it is not a linear but an exponential function that is sought in order to provide an explanation for the dependence.</p>
 <div id="applying-logistic-regression" class="section level4">
 <h4>Applying Logistic Regression:</h4>
@@ -296,6 +295,8 @@ summary(Life_MDeath_log)</code></pre>
 ## AIC: 1899.4
 ## 
 ## Number of Fisher Scoring iterations: 2</code></pre>
+<p>As can be seen in the section on coefficients the logistic regression analysis contains only the one constant “Life_Exp”. The coefficient associated with the variable is -21,788 and it represents the log-odds by which the value of the observation were to increase, if the variable were to increase by one unit.</p>
+<p>The negative coefficient confirms the negative correlation between the variables. Meaning that, for example, it is likely that the life-expectancy is likely to increase if the maternal mortality rate were to got down. The value itself implies a high significance.</p>
 </div>
 </div>
 </div>
@@ -305,10 +306,16 @@ summary(Life_MDeath_log)</code></pre>
 <h3>Basic Hypothesis:</h3>
 <p><strong>An increase of education can have a decreasing effect on the maternal mortality rate.</strong></p>
 </div>
-<div id="applying-multiple-linear-regression" class="section level3">
-<h3>Applying multiple linear regression:</h3>
+<div id="applying-multiple-logistic-regression" class="section level3">
+<h3>Applying multiple logistic regression:</h3>
+<ul>
+<li><strong>dependent variable = MMR</strong></li>
+<li><strong>1. independent variable = sec_Edu</strong></li>
+<li><strong>2. independent variable = Exp_Edu</strong></li>
+</ul>
 <pre class="r"><code># Accessing libraries:
 library(tidyr)
+library(ggplot2)
 
 # fitting the logistic model:
 Edu_MDeath_expo &lt;- glm(MMR ~ sec_Edu + Exp_Edu, data = fa_human)
@@ -338,6 +345,7 @@ summary(Edu_MDeath_expo)</code></pre>
 ## AIC: 1957.5
 ## 
 ## Number of Fisher Scoring iterations: 2</code></pre>
+<p>In this multiple logicstic regression analysis I related the variables sec_Edu and Exp_Edu to the variable MMR. Differently from the analysis before we now have two constants. Both again have negative coefficients, which means that an in- or de-crease in either would affect the maternal mortality rate in the respective reverse. It appears hereby that particularly the access to a secondary education impacts on the MMR-variable.</p>
 </div>
 </div>
 <div id="maternal-mortality-rate-adolescent-birthrate" class="section level1">
@@ -348,6 +356,7 @@ summary(Edu_MDeath_expo)</code></pre>
 </div>
 <div id="linear-discriminant-analysis" class="section level3">
 <h3>Linear Discriminant Analysis:</h3>
+<p>Linear Discriminant Analysis (LDA) is a classificatiton method, used to find variables that separate the dataset, predict “classes” of new data, and reduce the dimensions of the dataset.</p>
 <ol style="list-style-type: decimal">
 <li>Step scaling the dataset:</li>
 </ol>
@@ -376,7 +385,7 @@ class(fa_human_scaled)</code></pre>
 <pre class="r"><code># change the object to data frame
 fa_human_scaled &lt;- as.data.frame(fa_human_scaled)</code></pre>
 <ol start="2" style="list-style-type: decimal">
-<li>Creating a factor-variable:</li>
+<li>Creating a categorical variable:</li>
 </ol>
 <pre class="r"><code># summary of the scaled GNI-variable
 summary(fa_human_scaled$GNI)</code></pre>
