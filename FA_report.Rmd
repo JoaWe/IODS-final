@@ -4,7 +4,7 @@ In this final assignment I explore the fa_human dataset that I have established 
 
 I have attempted to relate this variable in diffenrent ways to the life-expectancy and the level of education.
 
-
+The link to my coding of the datawrangling can be found from [here](https://github.com/JoaWe/IODS-final/blob/master/create_fa_human.R).
 
 #Datawrangling and Explanation of the Dataset
 
@@ -164,7 +164,7 @@ As can be seen in the section on coefficients the logistic regression analysis c
 The negative coefficient confirms the negative correlation between the variables. Meaning that, for example, it is likely that the life-expectancy is likely to increase if the maternal mortality rate were to got down. The value itself implies a high significance.
 
 
-#2. Maternal Mortality and Education:
+#2. Maternal Mortality and Education
 
 
 ### Basic Hypothesis:
@@ -195,7 +195,7 @@ In this multiple logicstic regression analysis I related the variables sec_Edu a
 Differently from the analysis before we now have two  constants. Both again have negative coefficients, which means that an in- or de-crease in either would affect the maternal mortality rate in the respective reverse. It appears hereby that particularly the access to a secondary education impacts on the MMR-variable.
 
 
-# Discussion:
+# Discussion
 
 
 The brief analyses above have demonstarted that maternal mortality is both a driver, as well as, a result of living conditions and opportunities of individuals.
