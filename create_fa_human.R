@@ -1,4 +1,5 @@
 # Heike Joana Wege
+# joana.wege@helsinki.fi
 # 14.-15.12.2017
 # Datawrangling-Script for the IODS-Final-Assignment 
 
