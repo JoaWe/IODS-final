@@ -290,8 +290,8 @@ summary(Life_MDeath)</code></pre>
 </div>
 <div id="method-logistic-regression" class="section level3">
 <h3>Method: Logistic Regression:</h3>
-<p>The basis of multiple regression is the same as linear regression: An independent variable is drawn upon, in order to explain a dependent variable.</p>
-<p>The difference, however, is that in this case it is not a linear but an exponential function that is sought in order to provide the explanation.</p>
+<p>The basis of logistic regression is the same as linear regression: An independent variable is drawn upon, in order to explain a dependent variable.</p>
+<p>The difference, however, is that in this case it is not a linear but an exponential function that is sought in order to provide an explanation for the dependence.</p>
 <div id="applying-logistic-regression" class="section level4">
 <h4>Applying Logistic Regression:</h4>
 <p>The variables MMR and Life_Exp will be used in the same manner as above in the linear regression model:</p>
@@ -329,6 +329,8 @@ summary(Life_MDeath_log)</code></pre>
 ## AIC: 1899.4
 ## 
 ## Number of Fisher Scoring iterations: 2</code></pre>
+<p>As can be seen in the section on coefficients the logistic regression analysis contains only the one constant “Life_Exp”. The coefficient associated with the variable is -21,788 and it represents the log-odds by which the value of the observation were to increase, if the variable were to increase by one unit.</p>
+<p>The negative coefficient confirms the negative correlation between the variables. Meaning that, for example, it is likely that the life-expectancy is likely to increase if the maternal mortality rate were to got down. The value itself implies a high significance.</p>
 </div>
 </div>
 </div>
@@ -338,8 +340,8 @@ summary(Life_MDeath_log)</code></pre>
 <h3>Basic Hypothesis:</h3>
 <p><strong>An increase of education can have a decreasing effect on the maternal mortality rate.</strong></p>
 </div>
-<div id="applying-multiple-linear-regression" class="section level3">
-<h3>Applying multiple linear regression:</h3>
+<div id="applying-multiple-logistic-regression" class="section level3">
+<h3>Applying multiple logistic regression:</h3>
 <pre class="r"><code># Accessing libraries:
 library(tidyr)
 

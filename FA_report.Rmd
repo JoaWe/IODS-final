@@ -130,9 +130,9 @@ It remains to be seen, if the logistic regresssion might not lead to a more suit
 
 
 ### Method: Logistic Regression:
-The basis of multiple regression is the same as linear regression: An independent variable is drawn upon, in order to explain a dependent variable.
+The basis of logistic regression is the same as linear regression: An independent variable is drawn upon, in order to explain a dependent variable.
 
-The difference, however, is that in this case it is not a linear but an exponential function that is sought in order to provide the explanation.
+The difference, however, is that in this case it is not a linear but an exponential function that is sought in order to provide an explanation for the dependence.
 
 #### Applying Logistic Regression:
 
@@ -154,7 +154,9 @@ summary(Life_MDeath_log)
 
 ```
 
+As can be seen in the section on coefficients the logistic regression analysis contains only the one constant "Life_Exp". The coefficient associated with the variable is -21,788 and it represents the log-odds by which the value of the observation were to increase, if the variable were to increase by one unit. 
 
+The negative coefficient confirms the negative correlation between the variables. Meaning that, for example, it is likely that the life-expectancy is likely to increase if the maternal mortality rate were to got down. The value itself implies a high significance.
 
 
 #2. Maternal Mortality and Education:
@@ -162,12 +164,17 @@ summary(Life_MDeath_log)
 ### Basic Hypothesis:
 **An increase of education can have a decreasing effect on the maternal mortality rate.**
 
-### Applying multiple linear regression:
+### Applying multiple logistic regression:
+
+- **dependent variable = MMR**
+- **1. independent variable = sec_Edu**
+- **2. independent variable = Exp_Edu**
 
 ```{r multipleLogRA Education & MMR}
 
 # Accessing libraries:
 library(tidyr)
+library(ggplot2)
 
 # fitting the logistic model:
 Edu_MDeath_expo <- glm(MMR ~ sec_Edu + Exp_Edu, data = fa_human)
@@ -177,7 +184,8 @@ summary(Edu_MDeath_expo)
 
 ```
 
-
+In this multiple logicstic regression analysis I related the variables sec_Edu and Exp_Edu to the variable MMR. 
+Differently from the analysis before we now have two  constants. Both again have negative coefficients, which means that an in- or de-crease in either would affect the maternal mortality rate in the respective reverse. It appears hereby that particularly the access to a secondary education impacts on the MMR-variable.
 
 # Maternal-Mortality-Rate & Adolescent Birthrate:
 
